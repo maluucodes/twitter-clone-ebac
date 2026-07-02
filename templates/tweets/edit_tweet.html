@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Editar tweet</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit">Salvar</button>
+    </form>
+
+    <a href="{% url 'feed' %}">Voltar</a>
+{% endblock %}

@@ -2,5 +2,40 @@
 
 {% block content %}
     <h2>Feed</h2>
-    <p>Seu feed aparecerá aqui.</p>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit">Tweetar</button>
+    </form>
+
+    <hr>
+
+    {% for tweet in tweets %}
+        <article>
+            <p>
+                <strong>{{ tweet.author.profile.display_name|default:tweet.author.username }}</strong>
+                @{{ tweet.author.username }}
+            </p>
+
+            {% if tweet.author.profile.avatar %}
+                <img src="{{ tweet.author.profile.avatar.url }}" alt="Foto de perfil" width="50">
+            {% endif %}
+
+            <p>{{ tweet.content }}</p>
+            <small>{{ tweet.created_at }}</small>
+            {% if tweet.author == user %}
+                <p>
+                    <a href="{% url 'edit_tweet' tweet.id %}">Editar</a>
+                    |
+                    <a href="{% url 'delete_tweet' tweet.id %}">Deletar</a>
+                </p>
+            {% endif %}  
+        </article>
+        
+        <hr>
+    {% empty %}
+        <p>Nenhum tweet ainda.</p>
+    {% endfor %}
 {% endblock %}
