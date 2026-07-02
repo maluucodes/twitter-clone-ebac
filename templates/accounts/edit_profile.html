@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Editar perfil</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit">Salvar</button>
+    </form>
+
+    <p>
+        <a href="{% url 'profile' %}">Voltar para o perfil</a>
+    </p>
+{% endblock %}
