@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Twitter Aero</title>
+</head>
+<body>
+    <header>
+        <h1>Twitter Clone</h1>
+
+        {% if user.is_authenticated %}
+            <p>Olá, {{ user.username }}!</p>
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit">Sair</button>
+            </form>
+        {% endif %}
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>
