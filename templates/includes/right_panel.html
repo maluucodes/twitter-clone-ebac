@@ -1,0 +1,22 @@
+<h3>🐠 Seu perfil</h3>
+<p>
+    <strong>{{ user.profile.display_name|default:user.username }}</strong>
+    <br>
+    @{{ user.username }}
+</p>
+
+<p>Tweets: {{ user.tweets.count }}</p>
+<p>Seguindo: {{ user.profile.following.count }}</p>
+<p>Seguidores: {{ user.profile.followers.count }}</p>
+
+<a href="{% url 'edit_profile' %}">
+    Editar perfil
+</a>
+<hr>
+<h4>🌊 Dica</h4>
+<p>
+    Siga usuários para personalizar seu feed.
+</p>
+<p class="fish-decoration">
+    🐠 🫧 🐠
+</p>

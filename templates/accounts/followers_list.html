@@ -5,10 +5,7 @@
 
     {% for profile in followers %}
         <article>
-            {% if profile.avatar %}
-                <img src="{{ profile.avatar.url }}" alt="Foto de perfil" width="50">
-            {% endif %}
-
+            {% include "includes/avatar.html" with profile=profile %}
             <p>
                 <strong>{{ profile.display_name|default:profile.user.username }}</strong>
                 @{{ profile.user.username }}

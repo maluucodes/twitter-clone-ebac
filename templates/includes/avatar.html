@@ -1,0 +1,15 @@
+{% load static %}
+
+{% if profile.avatar %}
+    <img
+        class="avatar"
+        src="{{ profile.avatar.url }}"
+        alt="Foto de perfil"
+    >
+{% else %}
+    <img
+        class="avatar"
+        src="{% static 'images/msn-avatar.jfif' %}"
+        alt="Avatar padrão"
+    >
+{% endif %}

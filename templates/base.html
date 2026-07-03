@@ -4,40 +4,37 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Twitter Clone Aero</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AeroTweet</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
     <div class="page">
-        <aside class="card sidebar">
-            <h1 class="logo">WIM Messenger 🫧</h1>
-            {% if user.is_authenticated %}
-                <nav>
-                    <a class="nav-link" href="{% url 'feed' %}">🏠 Feed</a>
-                    <a class="nav-link" href="{% url 'profile' %}">👤 Perfil</a>
-                    <a class="nav-link" href="{% url 'users_list' %}">🐟 Usuários</a>
-                </nav>
-                <p>Olá, {{ user.username }}!</p>
-                <form action="{% url 'logout' %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit">Sair</button>
-                </form>
-            {% else %}
-                <nav>
-                    <a class="nav-link" href="{% url 'login' %}">Entrar</a>
-                    <a class="nav-link" href="{% url 'register' %}">Criar conta</a>
-                </nav>
-            {% endif %}
-        </aside>
+        {% if user.is_authenticated %}
+            <aside class="card sidebar desktop-only">
+                {% include "includes/sidebar.html" %}
+            </aside>
+            <details class="card mobile-menu">
+                <summary>
+                    🫧 AeroTweet
+                </summary>
+                {% include "includes/sidebar.html" %}
+                <hr>
+                {% include "includes/right_panel.html" %}
+            </details>
+        {% endif %}
         <main>
             {% block content %}
             {% endblock %}
         </main>
-        <aside class="card right-panel">
-            <h2>🌊 Aero vibes</h2>
-            <p>Azul, ciano, verde e peixinhos laranja.</p>
-            <p class="orange-fish">🐠 🐠 🐠</p>
-        </aside>
+        {% if user.is_authenticated %}
+            <aside class="card right-panel desktop-only">
+                {% include "includes/right_panel.html" %}
+            </aside>
+        {% endif %}
     </div>
+    <footer class="footer">
+        <p>🫧 AeroTweet © 2026 • Todos os direitos reservados.</p>
+    </footer>
 </body>
 </html>

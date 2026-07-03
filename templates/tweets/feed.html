@@ -1,62 +1,95 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-    <section class="card tweet-box">
-        <h2>Feed</h2>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Tweetar 🐠</button>
-        </form>
-    </section>
-    {% for tweet in tweets %}
-        <article class="card tweet-card">
-            <div class="tweet-header">
-                {% if tweet.author.profile.avatar %}
-                    <img class="avatar" src="{{ tweet.author.profile.avatar.url }}" alt="Foto de perfil">
-                {% endif %}
-                <p>
-                    <strong>{{ tweet.author.profile.display_name|default:tweet.author.username }}</strong>
-                    <br>
-                    @{{ tweet.author.username }}
-                </p>
-            </div>
-            <p>{{ tweet.content }}</p>
-            <small>{{ tweet.created_at }}</small>
-            <p>
-                <a href="{% url 'like_tweet' tweet.id %}">
-                    {% if user in tweet.likes.all %}
-                        Descurtir
-                    {% else %}
-                        Curtir
-                    {% endif %}
-                </a>
-                ❤️ {{ tweet.likes.count }}
-            </p>
-            <form method="post" action="{% url 'comment_tweet' tweet.id %}">
-                {% csrf_token %}
-                <input type="text" name="content" placeholder="Escreva um comentário">
-                <button type="submit">Comentar</button>
-            </form>
-            {% for comment in tweet.comments.all %}
-                <p>
-                    <strong>{{ comment.author.username }}</strong>:
-                    {{ comment.content }}
-                </p>
-            {% empty %}
-                <p>Nenhum comentário ainda.</p>
-            {% endfor %}
-            {% if tweet.author == user %}
-                <p>
-                    <a href="{% url 'edit_tweet' tweet.id %}">Editar</a>
-                    |
-                    <a href="{% url 'delete_tweet' tweet.id %}">Deletar</a>
-                </p>
+
+<section class="card tweet-box">
+    <h2>🌊 Feed</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Tweetar 🐠</button>
+    </form>
+</section>
+
+{% for tweet in tweets %}
+<article class="card tweet-card">
+    <div class="tweet-header">
+        {% include "includes/avatar.html" with profile=tweet.author.profile %}
+        <div>
+            <strong>
+                {{ tweet.author.profile.display_name|default:tweet.author.username }}
+            </strong>
+            <br>
+            @{{ tweet.author.username }}
+            <br>
+            <small class="tweet-date">
+                {{ tweet.created_at }}
+            </small>
+        </div>
+    </div>
+    <p class="tweet-content">
+        {{ tweet.content }}
+    </p>
+    <div class="tweet-actions">
+        <a href="{% url 'like_tweet' tweet.id %}">
+            {% if user in tweet.likes.all %}
+                ❤️ Descurtir
+            {% else %}
+                🤍 Curtir
             {% endif %}
-        </article>
+        </a>
+        <span>
+            ❤️ {{ tweet.likes.count }}
+        </span>
+        {% if tweet.author == user %}
+            <a href="{% url 'edit_tweet' tweet.id %}">
+                ✏️ Editar
+            </a>
+            <a href="{% url 'delete_tweet' tweet.id %}">
+                🗑️ Deletar
+            </a>
+        {% endif %}
+    </div>
+    <form
+        class="comment-form"
+        method="post"
+        action="{% url 'comment_tweet' tweet.id %}"
+    >
+        {% csrf_token %}
+        <input
+            type="text"
+            name="content"
+            placeholder="Escreva um comentário..."
+        >
+        <button type="submit">
+            💬
+        </button>
+    </form>
+    {% for comment in tweet.comments.all %}
+        <div class="comment">
+            <strong>
+                {{ comment.author.profile.display_name|default:comment.author.username }}
+            </strong>
+            <small>
+                @{{ comment.author.username }}
+            </small>
+            <p>
+                {{ comment.content }}
+            </p>
+        </div>
     {% empty %}
-        <section class="card">
-            <p>Nenhum tweet ainda.</p>
-        </section>
+        <p style="opacity:.7;">
+            Nenhum comentário ainda.
+        </p>
     {% endfor %}
+</article>
+{% empty %}
+<section class="card">
+    <h3>🐠 Seu feed está vazio</h3>
+    <p>
+        Siga algumas pessoas ou publique seu primeiro tweet.
+    </p>
+</section>
+{% endfor %}
 {% endblock %}

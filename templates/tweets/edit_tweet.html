@@ -1,14 +1,22 @@
 {% extends "base.html" %}
-
 {% block content %}
-    <h2>Editar tweet</h2>
 
-    <form method="post">
+<section class="card">
+    <h2>✏️ Editar tweet</h2>
+    <form class="edit-form" method="post">
         {% csrf_token %}
         {{ form.as_p }}
-
-        <button type="submit">Salvar</button>
+        <div class="edit-actions">
+            <button type="submit">
+                Salvar
+            </button>
+            <br>
+            <a href="{% url 'feed' %}">
+                ← Voltar
+            </a>
+        </div>
     </form>
 
-    <a href="{% url 'feed' %}">Voltar</a>
+</section>
+
 {% endblock %}

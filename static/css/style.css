@@ -2,14 +2,18 @@
     box-sizing: border-box;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    color: #073b5c;
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
     background:
-        radial-gradient(circle at top left, rgba(255, 255, 255, 0.9), transparent 30%),
-        linear-gradient(135deg, #0099ff, #42f5d7, #b6fff2);
-    min-height: 100vh;
+    radial-gradient(circle at top,#ffffff66,transparent 25%),
+    linear-gradient(
+        145deg,
+        #0d79ff,
+        #4ee7d3,
+        #bffcf2
+    );
+    min-height:100vh;
 }
 
 a {
@@ -17,32 +21,42 @@ a {
     font-weight: bold;
 }
 
-button {
-    cursor: pointer;
-    border: none;
-    border-radius: 999px;
-    padding: 10px 18px;
-    background: linear-gradient(180deg, #ffb347, #ff7b22);
-    color: white;
-    font-weight: bold;
+button{
+    border:none;
+    border-radius:999px;
+    padding:10px 22px;
+    background:
+    linear-gradient(
+        #ffbb4d,
+        #ff7a22
+    );
+    color:white;
+    font-weight:bold;
+    transition:.2s;
+}
+
+button:hover{
+    transform:scale(1.04);
 }
 
 .page {
     display: grid;
-    grid-template-columns: 240px minmax(0, 680px) 280px;
-    gap: 20px;
-    max-width: 1250px;
-    margin: 0 auto;
-    padding: 20px;
+    grid-template-columns: 260px 1fr 300px;
+    gap: 24px;
+    max-width: 1450px;
+    margin: auto;
+    padding: 30px;
 }
 
 .card {
-    background: rgba(255, 255, 255, 0.55);
-    border: 1px solid rgba(255, 255, 255, 0.9);
-    border-radius: 24px;
-    box-shadow: 0 8px 24px rgba(0, 80, 120, 0.25);
-    backdrop-filter: blur(10px);
-    padding: 18px;
+    background: rgba(255,255,255,.35);
+    border-radius: 28px;
+    border: 1px solid rgba(255,255,255,.8);
+    backdrop-filter: blur(18px);
+    padding: 22px;
+    box-shadow:
+        0 12px 35px rgba(0,90,160,.18),
+        inset 0 0 10px rgba(255,255,255,.4);
 }
 
 .sidebar {
@@ -56,16 +70,19 @@ button {
     margin-bottom: 20px;
 }
 
-.nav-link {
-    display: block;
-    padding: 12px;
-    margin-bottom: 8px;
-    border-radius: 18px;
-    text-decoration: none;
+.nav-link{
+    display:block;
+    padding:14px;
+    margin-bottom:8px;
+    border-radius:18px;
+    text-decoration:none;
+    color:#004d77;
 }
 
-.nav-link:hover {
-    background: rgba(255, 255, 255, 0.45);
+.nav-link:hover{
+    background:
+    rgba(255,255,255,.4);
+
 }
 
 .tweet-box textarea {
@@ -81,12 +98,12 @@ button {
     margin-top: 16px;
 }
 
-.avatar {
-    width: 54px;
-    height: 54px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 3px solid white;
+.avatar{
+    width:60px;
+    height:60px;
+    object-fit:cover;
+    border-radius:50%;
+    border:3px solid white;
 }
 
 .tweet-header {
@@ -103,13 +120,205 @@ button {
     display: block;
 }
 
-@media (max-width: 900px) {
+.tweet-card {
+    margin-top: 18px;
+}
+
+.tweet-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.tweet-content {
+    font-size: 17px;
+    line-height: 1.5;
+    margin: 18px 0;
+}
+
+.tweet-date {
+    color: #2f6f86;
+    font-size: 13px;
+}
+
+.tweet-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 12px;
+}
+
+.tweet-actions a {
+    color: #006b9c;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.comment-form {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.comment-form input {
+    flex: 1;
+    border-radius: 999px;
+    border: 1px solid #8eefff;
+    padding: 10px 14px;
+}
+
+.comment {
+    background: rgba(255,255,255,.35);
+    border-radius: 16px;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+        radial-gradient(circle, rgba(255,255,255,.45) 0 8px, transparent 9px),
+        radial-gradient(circle, rgba(255,255,255,.3) 0 5px, transparent 6px);
+    background-size: 120px 120px, 80px 80px;
+    animation: bubbles 18s linear infinite;
+}
+
+@keyframes bubbles {
+    from {
+        background-position: 0 100vh, 40px 100vh;
+    }
+    to {
+        background-position: 0 -100vh, 40px -100vh;
+    }
+}
+
+
+.card::after {
+    content: "🐠";
+    float: right;
+    opacity: .35;
+}
+
+.edit-form textarea {
+    width: 100%;
+    min-height: 120px;
+    border: 1px solid #8eefff;
+    border-radius: 22px;
+    padding: 16px;
+    font-size: 16px;
+    resize: vertical;
+    outline: none;
+    background: rgba(255,255,255,.65);
+    transition: .2s;
+}
+
+.edit-form textarea:focus {
+    border-color: #00b7ff;
+    box-shadow: 0 0 12px rgba(0,183,255,.35);
+}
+
+.edit-actions {
+    margin-top: 18px;
+}
+
+.edit-actions a {
+    display: inline-block;
+    margin-top: 14px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.footer {
+    margin-top: 30px;
+    padding: 20px;
+    text-align: center;
+    color: #0b4f6c;
+    font-size: 14px;
+    background: #ffffff40;
+    backdrop-filter: blur(10px);
+    border-top: 1px solid #ffffff99;
+}
+
+.footer p {
+    margin: 0;
+}
+
+.mobile-menu {
+    display: none;
+}
+
+@media (max-width: 1100px) {
+
     .page {
         grid-template-columns: 1fr;
+        max-width: 760px;
+        padding: 18px;
     }
+    .desktop-only {
+        display: none;
+    }
+    .mobile-menu {
+        display: block;
+        position: sticky;
+        top: 12px;
+        z-index: 999;
+        margin-bottom: 20px;
+        backdrop-filter: blur(16px);
+    }
+    .mobile-menu summary {
+        list-style: none;
+        cursor: pointer;
+        user-select: none;
+        padding: 16px 20px;
+        font-size: 22px;
+        font-weight: bold;
+        color: #004d77;
+        border-radius: 20px;
+        background: rgba(255,255,255,.35);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .mobile-menu summary::-webkit-details-marker {
+        display: none;
+    }
+    .mobile-menu summary::after {
+        content: "▼";
+        font-size: 16px;
+        transition: .25s;
+    }
+    .mobile-menu[open] summary::after {
+        content: "▲";
+    }
+    .mobile-menu[open] summary {
+        margin-bottom: 20px;
+    }
+}
 
-    .sidebar,
-    .right-panel {
-        position: static;
+@media (max-width: 700px) {
+
+    .page {
+        grid-template-columns: 1fr;
+        padding: 12px;
+    }
+    .tweet-header {
+        align-items: flex-start;
+    }
+    .comment-form {
+        flex-direction: column;
+    }
+    .comment-form input {
+        width: 100%;
+    }
+    button {
+        width: 100%;
+    }
+    .mobile-menu summary {
+        font-size: 20px;
+        padding: 14px 18px;
     }
 }

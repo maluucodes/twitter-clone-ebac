@@ -1,0 +1,19 @@
+<h1 class="logo">🫧 AeroTweet</h1>
+
+<nav>
+    <a class="nav-link" href="{% url 'feed' %}">🏠 Feed</a>
+    <a class="nav-link" href="{% url 'profile' %}">👤 Perfil</a>
+    <a class="nav-link" href="{% url 'users_list' %}">👥 Usuários</a>
+    <a class="nav-link" href="{% url 'following_list' %}">➡️ Seguindo</a>
+    <a class="nav-link" href="{% url 'followers_list' %}">👈 Seguidores</a>
+</nav>
+
+<hr>
+
+<p><strong>{{ user.profile.display_name|default:user.username }}</strong></p>
+<p>@{{ user.username }}</p>
+
+<form action="{% url 'logout' %}" method="post">
+    {% csrf_token %}
+    <button type="submit">Sair</button>
+</form>
