@@ -1,22 +1,26 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>Feed</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Tweetar</button>
-    </form>
-    <hr>
+    <section class="card tweet-box">
+        <h2>Feed</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Tweetar 🐠</button>
+        </form>
+    </section>
     {% for tweet in tweets %}
-        <article>
-            <p>
-                <strong>{{ tweet.author.profile.display_name|default:tweet.author.username }}</strong>
-                @{{ tweet.author.username }}
-            </p>
-            {% if tweet.author.profile.avatar %}
-                <img src="{{ tweet.author.profile.avatar.url }}" alt="Foto de perfil" width="50">
-            {% endif %}
+        <article class="card tweet-card">
+            <div class="tweet-header">
+                {% if tweet.author.profile.avatar %}
+                    <img class="avatar" src="{{ tweet.author.profile.avatar.url }}" alt="Foto de perfil">
+                {% endif %}
+                <p>
+                    <strong>{{ tweet.author.profile.display_name|default:tweet.author.username }}</strong>
+                    <br>
+                    @{{ tweet.author.username }}
+                </p>
+            </div>
             <p>{{ tweet.content }}</p>
             <small>{{ tweet.created_at }}</small>
             <p>
@@ -27,22 +31,16 @@
                         Curtir
                     {% endif %}
                 </a>
-                {{ tweet.likes.count }} curtida(s)
+                ❤️ {{ tweet.likes.count }}
             </p>
             <form method="post" action="{% url 'comment_tweet' tweet.id %}">
                 {% csrf_token %}
-                <input
-                    type="text"
-                    name="content"
-                    placeholder="Escreva um comentário"
-                >
+                <input type="text" name="content" placeholder="Escreva um comentário">
                 <button type="submit">Comentar</button>
             </form>
             {% for comment in tweet.comments.all %}
                 <p>
-                    <strong>{{ comment.author.profile.display_name|default:comment.author.username }}</strong>
-                    @{{ comment.author.username }}
-                    <br>
+                    <strong>{{ comment.author.username }}</strong>:
                     {{ comment.content }}
                 </p>
             {% empty %}
@@ -56,8 +54,9 @@
                 </p>
             {% endif %}
         </article>
-        <hr>
     {% empty %}
-        <p>Nenhum tweet ainda.</p>
+        <section class="card">
+            <p>Nenhum tweet ainda.</p>
+        </section>
     {% endfor %}
 {% endblock %}

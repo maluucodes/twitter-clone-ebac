@@ -1,23 +1,23 @@
-from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
+from accounts.forms import ProfileForm, RegisterForm
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
+from django.contrib.auth import login, logout
 
 from accounts.forms import ProfileForm
 
 
 def register_view(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = RegisterForm(request.POST)
 
         if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect("feed")
     else:
-        form = UserCreationForm()
+        form = RegisterForm()
 
     return render(request, "accounts/register.html", {"form": form})
 
@@ -86,3 +86,13 @@ def followers_list_view(request):
         "accounts/followers_list.html",
         {"followers": followers},
     )
+
+@login_required
+def delete_account_view(request):
+    if request.method == "POST":
+        user = request.user
+        logout(request)
+        user.delete()
+        return redirect("register")
+
+    return render(request, "accounts/delete_account.html")

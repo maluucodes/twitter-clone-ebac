@@ -1,7 +1,17 @@
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView
 from django.urls import path
-
-from accounts.views import edit_profile_view, profile_view, register_view, follow_user_view, unfollow_user_view, users_list_view, followers_list_view, following_list_view
+from django.contrib.auth import login, logout
+from accounts.views import (
+    delete_account_view,
+    edit_profile_view,
+    follow_user_view,
+    followers_list_view,
+    following_list_view,
+    profile_view,
+    register_view,
+    unfollow_user_view,
+    users_list_view,
+)
 
 
 urlpatterns = [
@@ -25,4 +35,5 @@ urlpatterns = [
     ),
     path("seguindo/", following_list_view, name="following_list"),
     path("seguidores/", followers_list_view, name="followers_list"),
+    path("conta/deletar/", delete_account_view, name="delete_account"),
 ]

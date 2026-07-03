@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Deletar conta</h2>
+
+    <p>Tem certeza que deseja deletar sua conta?</p>
+    <p>Essa ação não poderá ser desfeita.</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Sim, deletar minha conta</button>
+    </form>
+
+    <a href="{% url 'profile' %}">Cancelar</a>
+{% endblock %}
