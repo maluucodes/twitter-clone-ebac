@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
-from tweets.forms import TweetForm
+from tweets.forms import CommentForm, TweetForm
 from tweets.models import Tweet
 
 
@@ -53,3 +53,31 @@ def delete_tweet_view(request, tweet_id):
         return redirect("feed")
 
     return render(request, "tweets/delete_tweet.html", {"tweet": tweet})
+
+
+@login_required
+def like_tweet_view(request, tweet_id):
+    tweet = get_object_or_404(Tweet, id=tweet_id)
+
+    if request.user in tweet.likes.all():
+        tweet.likes.remove(request.user)
+    else:
+        tweet.likes.add(request.user)
+
+    return redirect("feed")
+
+
+@login_required
+def comment_tweet_view(request, tweet_id):
+    tweet = get_object_or_404(Tweet, id=tweet_id)
+
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.tweet = tweet
+            comment.author = request.user
+            comment.save()
+
+    return redirect("feed")
