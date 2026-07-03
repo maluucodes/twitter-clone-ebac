@@ -1,25 +1,41 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>Usuários</h2>
 
+<section class="card">
+    <h2>👥 Usuários</h2>
     {% for account in users %}
-        <article>
-            {% include "includes/avatar.html" with profile=account.profile %}
-            <p>
-                <strong>{{ account.profile.display_name|default:account.username }}</strong>
-                @{{ account.username }}
-            </p>
-
-            {% if account.profile in user.profile.following.all %}
-                <a href="{% url 'unfollow_user' account.id %}">Deixar de seguir</a>
-            {% else %}
-                <a href="{% url 'follow_user' account.id %}">Seguir</a>
+        <article class="tweet-card">
+            <div class="tweet-header">
+                {% include "includes/avatar.html" with profile=account.profile %}
+                <div>
+                    <a href="{% url 'user_profile' account.username %}">
+                        <strong>
+                            {{ account.profile.display_name|default:account.username }}
+                        </strong>
+                    </a>
+                    <br>
+                    @{{ account.username }}
+                </div>
+            </div>
+            {% if account != user %}
+                <div class="tweet-actions">
+                    {% if account.profile in user.profile.following.all %}
+                        <a href="{% url 'unfollow_user' account.id %}">
+                            ➖ Deixar de seguir
+                        </a>
+                    {% else %}
+                        <a href="{% url 'follow_user' account.id %}">
+                            ➕ Seguir
+                        </a>
+                    {% endif %}
+                </div>
             {% endif %}
         </article>
-
         <hr>
     {% empty %}
         <p>Nenhum usuário encontrado.</p>
     {% endfor %}
+</section>
+
 {% endblock %}

@@ -3,16 +3,14 @@
 {% block content %}
 
 <section class="card">
-    <h2>👥 Meus seguidores</h2>
-    {% for profile in followers %}
+    <h2>➡️ {{ profile_user.profile.display_name|default:profile_user.username }} segue</h2>
+    {% for profile in following %}
         <article class="tweet-card">
             <div class="tweet-header">
                 {% include "includes/avatar.html" with profile=profile %}
                 <div>
                     <a href="{% url 'user_profile' profile.user.username %}">
-                        <strong>
-                            {{ profile.display_name|default:profile.user.username }}
-                        </strong>
+                        <strong>{{ profile.display_name|default:profile.user.username }}</strong>
                     </a>
                     <br>
                     @{{ profile.user.username }}
@@ -21,7 +19,7 @@
         </article>
         <hr>
     {% empty %}
-        <p>Você ainda não possui seguidores.</p>
+        <p>Este usuário ainda não segue ninguém.</p>
     {% endfor %}
 </section>
 

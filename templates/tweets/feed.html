@@ -17,9 +17,11 @@
     <div class="tweet-header">
         {% include "includes/avatar.html" with profile=tweet.author.profile %}
         <div>
-            <strong>
-                {{ tweet.author.profile.display_name|default:tweet.author.username }}
-            </strong>
+            <a href="{% url 'user_profile' tweet.author.username %}">
+                <strong>
+                    {{ tweet.author.profile.display_name|default:tweet.author.username }}
+                </strong>
+            </a>
             <br>
             @{{ tweet.author.username }}
             <br>

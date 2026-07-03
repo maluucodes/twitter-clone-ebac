@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="card">
+    <div class="tweet-header">
+        {% include "includes/avatar.html" with profile=profile_user.profile %}
+        <div>
+            <h2>
+                {{ profile_user.profile.display_name|default:profile_user.username }}
+            </h2>
+            <p>@{{ profile_user.username }}</p>
+        </div>
+    </div>
+    <p>
+        {{ profile_user.profile.bio|default:"Este usuário ainda não escreveu uma bio." }}
+    </p>
+    <div class="tweet-actions">
+        <a href="{% url 'user_followers_list' profile_user.username %}">
+            👥 Seguidores: {{ profile_user.profile.followers.count }}
+        </a>
+        <a href="{% url 'user_following_list' profile_user.username %}">
+            ➡️ Seguindo: {{ profile_user.profile.following.count }}
+        </a>
+    </div>
+    {% if profile_user != user %}
+        <hr>
+        {% if profile_user.profile in user.profile.following.all %}
+            <a href="{% url 'unfollow_user' profile_user.id %}">
+                ➖ Deixar de seguir
+            </a>
+        {% else %}
+            <a href="{% url 'follow_user' profile_user.id %}">
+                ➕ Seguir
+            </a>
+        {% endif %}
+    {% endif %}
+</section>
+
+<section class="card">
+    <h3>
+        🐠 Tweets de {{ profile_user.profile.display_name|default:profile_user.username }}
+    </h3>
+    {% for tweet in profile_user.tweets.all %}
+        <article class="tweet-card">
+            <p class="tweet-content">
+                {{ tweet.content }}
+            </p>
+            <small class="tweet-date">
+                {{ tweet.created_at }}
+            </small>
+            <p>
+                ❤️ {{ tweet.likes.count }} curtida(s)
+            </p>
+        </article>
+        <hr>
+    {% empty %}
+        <p>Este usuário ainda não publicou nenhum tweet.</p>
+    {% endfor %}
+
+</section>
+
+{% endblock %}

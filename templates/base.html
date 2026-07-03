@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <div class="page">
+    <div class="page {% if not user.is_authenticated %}auth-layout{% endif %}">
         {% if user.is_authenticated %}
             <aside class="card sidebar desktop-only">
                 {% include "includes/sidebar.html" %}

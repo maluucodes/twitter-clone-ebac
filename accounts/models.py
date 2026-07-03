@@ -18,9 +18,6 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.display_name or self.user.username
-    
-
-
 
 
 @receiver(post_save, sender=User)

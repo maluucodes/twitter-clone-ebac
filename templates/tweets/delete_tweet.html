@@ -1,18 +1,26 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>Deletar tweet</h2>
 
+<section class="card">
+    <h2>🗑️ Deletar tweet</h2>
     <p>Tem certeza que deseja deletar este tweet?</p>
-
     <blockquote>
         {{ tweet.content }}
     </blockquote>
-
     <form method="post">
         {% csrf_token %}
-        <button type="submit">Sim, deletar</button>
+        <div class="delete-actions">
+            <button type="submit">
+                Sim, deletar
+            </button>
+            <br>
+            <a href="{% url 'feed' %}">
+                ← Cancelar
+            </a>
+        </div>
     </form>
 
-    <a href="{% url 'feed' %}">Cancelar</a>
+</section>
+
 {% endblock %}

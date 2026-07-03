@@ -1,15 +1,19 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
+from rest_framework import status
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 from tweets.forms import CommentForm, TweetForm
 from tweets.models import Tweet
+from tweets.serializers import TweetSerializer
 
 
 @login_required
 def feed_view(request):
     following_profiles = request.user.profile.following.all()
     following_users = [profile.user for profile in following_profiles]
-
     following_users.append(request.user)
 
     tweets = Tweet.objects.filter(author__in=following_users)
@@ -81,3 +85,28 @@ def comment_tweet_view(request, tweet_id):
             comment.save()
 
     return redirect("feed")
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def api_feed_view(request):
+    following_profiles = request.user.profile.following.all()
+    following_users = [profile.user for profile in following_profiles]
+    following_users.append(request.user)
+
+    tweets = Tweet.objects.filter(author__in=following_users)
+    serializer = TweetSerializer(tweets, many=True)
+
+    return Response(serializer.data)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def api_create_tweet_view(request):
+    serializer = TweetSerializer(data=request.data)
+
+    if serializer.is_valid():
+        serializer.save(author=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

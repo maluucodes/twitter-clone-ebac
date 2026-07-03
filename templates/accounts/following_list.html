@@ -1,19 +1,28 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>Pessoas que você segue</h2>
 
+<section class="card">
+    <h2>➡️ Estou seguindo</h2>
     {% for profile in following %}
-        <article>
-            {% include "includes/avatar.html" with profile=profile %}
-            <p>
-                <strong>{{ profile.display_name|default:profile.user.username }}</strong>
-                @{{ profile.user.username }}
-            </p>
+        <article class="tweet-card">
+            <div class="tweet-header">
+                {% include "includes/avatar.html" with profile=profile %}
+                <div>
+                    <a href="{% url 'user_profile' profile.user.username %}">
+                        <strong>
+                            {{ profile.display_name|default:profile.user.username }}
+                        </strong>
+                    </a>
+                    <br>
+                    @{{ profile.user.username }}
+                </div>
+            </div>
         </article>
-
         <hr>
     {% empty %}
         <p>Você ainda não segue ninguém.</p>
     {% endfor %}
+</section>
+
 {% endblock %}

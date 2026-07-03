@@ -1,17 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>Entrar</h2>
-
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-
-        <button type="submit">Login</button>
-    </form>
-
-    <p>
-        Ainda não tem conta?
-        <a href="{% url 'register' %}">Criar conta</a>
-    </p>
+<div class="auth-page">
+    <section class="card auth-card">
+        <h2>🫧 Entrar</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Entrar 🐠</button>
+        </form>
+        <p>
+            Ainda não tem conta?
+            <a href="{% url 'register' %}">Criar conta</a>
+        </p>
+    </section>
+</div>
 {% endblock %}
