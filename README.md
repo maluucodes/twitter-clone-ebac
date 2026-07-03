@@ -40,8 +40,8 @@ O projeto permite cadastro de usuários, login, edição de perfil, criação de
 ### 1. Clone o repositório
 
 ```bash
-git clone <URL_DO_REPOSITORIO>
-cd twitter-clone
+git clone git@github.com:maluucodes/twitter-clone-ebac.git
+cd twitter-clone-ebac
 ```
 
 ### 2. Crie e ative um ambiente virtual
