@@ -10,7 +10,17 @@
     <p><strong>Nome:</strong> {{ user.profile.display_name|default:user.username }}</p>
     <p><strong>Usuário:</strong> @{{ user.username }}</p>
     <p><strong>Bio:</strong> {{ user.profile.bio|default:"Nenhuma bio ainda." }}</p>
+    <p>
+        <a href="{% url 'following_list' %}">
+            Seguindo: {{ user.profile.following.count }}
+        </a>
+    </p>
 
+    <p>
+        <a href="{% url 'followers_list' %}">
+            Seguidores: {{ user.profile.followers.count }}
+        </a>
+    </p>
     <a href="{% url 'edit_profile' %}">Editar perfil</a>
     <br>
     <a href="{% url 'change_password' %}">Alterar senha</a>

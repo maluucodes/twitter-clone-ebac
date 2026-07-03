@@ -2,6 +2,8 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import redirect, render
+from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 
 from accounts.forms import ProfileForm
 
@@ -39,3 +41,48 @@ def edit_profile_view(request):
         form = ProfileForm(instance=profile)
 
     return render(request, "accounts/edit_profile.html", {"form": form})
+
+@login_required
+def users_list_view(request):
+    users = User.objects.exclude(id=request.user.id)
+
+    return render(request, "accounts/users_list.html", {"users": users})
+
+
+@login_required
+def follow_user_view(request, user_id):
+    user_to_follow = get_object_or_404(User, id=user_id)
+
+    request.user.profile.following.add(user_to_follow.profile)
+
+    return redirect("users_list")
+
+
+@login_required
+def unfollow_user_view(request, user_id):
+    user_to_unfollow = get_object_or_404(User, id=user_id)
+
+    request.user.profile.following.remove(user_to_unfollow.profile)
+
+    return redirect("users_list")
+
+@login_required
+def following_list_view(request):
+    following = request.user.profile.following.all()
+
+    return render(
+        request,
+        "accounts/following_list.html",
+        {"following": following},
+    )
+
+
+@login_required
+def followers_list_view(request):
+    followers = request.user.profile.followers.all()
+
+    return render(
+        request,
+        "accounts/followers_list.html",
+        {"followers": followers},
+    )

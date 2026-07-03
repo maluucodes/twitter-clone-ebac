@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Usuários</h2>
+
+    {% for account in users %}
+        <article>
+            {% if account.profile.avatar %}
+                <img src="{{ account.profile.avatar.url }}" alt="Foto de perfil" width="50">
+            {% endif %}
+
+            <p>
+                <strong>{{ account.profile.display_name|default:account.username }}</strong>
+                @{{ account.username }}
+            </p>
+
+            {% if account.profile in user.profile.following.all %}
+                <a href="{% url 'unfollow_user' account.id %}">Deixar de seguir</a>
+            {% else %}
+                <a href="{% url 'follow_user' account.id %}">Seguir</a>
+            {% endif %}
+        </article>
+
+        <hr>
+    {% empty %}
+        <p>Nenhum usuário encontrado.</p>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Seus seguidores</h2>
+
+    {% for profile in followers %}
+        <article>
+            {% if profile.avatar %}
+                <img src="{{ profile.avatar.url }}" alt="Foto de perfil" width="50">
+            {% endif %}
+
+            <p>
+                <strong>{{ profile.display_name|default:profile.user.username }}</strong>
+                @{{ profile.user.username }}
+            </p>
+        </article>
+
+        <hr>
+    {% empty %}
+        <p>Ninguém segue você ainda.</p>
+    {% endfor %}
+{% endblock %}

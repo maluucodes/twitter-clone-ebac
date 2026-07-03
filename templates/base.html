@@ -9,6 +9,11 @@
         <h1>Twitter Clone</h1>
 
         {% if user.is_authenticated %}
+            <nav>
+                <a href="{% url 'feed' %}">Feed</a>
+                <a href="{% url 'profile' %}">Perfil</a>
+                <a href="{% url 'users_list' %}">Usuários</a>
+            </nav>
             <p>Olá, {{ user.username }}!</p>
             <form action="{% url 'logout' %}" method="post">
                 {% csrf_token %}

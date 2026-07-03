@@ -7,7 +7,12 @@ from tweets.models import Tweet
 
 @login_required
 def feed_view(request):
-    tweets = Tweet.objects.all()
+    following_profiles = request.user.profile.following.all()
+    following_users = [profile.user for profile in following_profiles]
+
+    following_users.append(request.user)
+
+    tweets = Tweet.objects.filter(author__in=following_users)
 
     if request.method == "POST":
         form = TweetForm(request.POST)
