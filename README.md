@@ -14,6 +14,7 @@ O projeto permite cadastro de usuários, login, edição de perfil, criação de
 - HTML
 - CSS
 - Render
+- Cloudinary
 
 ## Funcionalidades
 
