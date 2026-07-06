@@ -1,6 +1,6 @@
 {% load static %}
 
-{% if profile.avatar %}
+{% if profile.avatar and profile.avatar.name %}
     <img
         class="avatar"
         src="{{ profile.avatar.url }}"
